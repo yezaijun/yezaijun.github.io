@@ -1,0 +1,36 @@
+{{- $raw := strings.TrimSpace (printf "%v" .) -}}
+{{- $slug := $raw | urlize -}}
+{{- $profile := partial "functions/get_author_profile" (dict "slug" $slug "title" $raw) -}}
+{{- $given := $profile.name_given | default "" -}}
+{{- $middle := $profile.name_middle | default "" -}}
+{{- $family := $profile.name_family_pref | default "" -}}
+
+{{- if or (not $given) (not $family) -}}
+  {{- $parts := split ($profile.title | default $raw) " " -}}
+  {{- if gt (len $parts) 1 -}}
+    {{- $family = index (last 1 $parts) 0 -}}
+    {{- $given = delimit (first (sub (len $parts) 1) $parts) " " -}}
+  {{- else -}}
+    {{- $family = $profile.title | default $raw -}}
+    {{- $given = "" -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $initials := slice -}}
+{{- range split (strings.TrimSpace (printf "%s %s" $given $middle)) " " -}}
+  {{- if . -}}
+    {{- $hyphenated := slice -}}
+    {{- range split . "-" -}}
+      {{- if . -}}
+        {{- $hyphenated = $hyphenated | append (printf "%s." (upper (substr . 0 1))) -}}
+      {{- end -}}
+    {{- end -}}
+    {{- $initials = $initials | append (delimit $hyphenated "-") -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $formatted := $family -}}
+{{- if $initials -}}
+  {{- $formatted = printf "%s %s" (delimit $initials " ") $family -}}
+{{- end -}}
+{{- return $formatted -}}

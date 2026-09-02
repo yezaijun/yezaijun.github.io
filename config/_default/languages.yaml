@@ -1,0 +1,22 @@
+# Languages
+#   Create a section for each of your site's languages.
+#   Documentation: https://docs.hugoblox.com/reference/language/
+
+zh:
+  locale: zh-Hans
+  title: '叶再俊'
+
+en:
+  locale: en-US
+  title: 'Zaijun Ye'
+  menus:
+    main:
+      - name: Bio
+        url: /
+        weight: 10
+      - name: Blogs
+        url: ../../projects/
+        weight: 11
+      - name: About me
+        url: ../../about/
+        weight: 12

@@ -1,0 +1,27 @@
+{{- $sections := partial "hbx/sections.html" . -}}
+{{- $profile_layout := or .IsHome (.Params.profile_layout | default false) -}}
+
+{{- if $profile_layout -}}
+<div class="zh-home-layout">
+  <aside class="zh-home-sidebar" aria-label="{{ if eq .Lang "en" }}Profile{{ else }}个人信息{{ end }}">
+    {{- range first 1 $sections -}}
+      {{- if or (not .demo) (and .demo (eq (os.Getenv "HUGO_BLOX_DEMO") "true")) -}}
+        {{- partial "functions/parse_block_v3" (dict "page" $ "block" .) -}}
+      {{- end -}}
+    {{- end -}}
+  </aside>
+  <main class="zh-home-main" aria-label="{{ if eq .Lang "en" }}Academic information{{ else }}学术信息{{ end }}">
+    {{- range after 1 $sections -}}
+      {{- if or (not .demo) (and .demo (eq (os.Getenv "HUGO_BLOX_DEMO") "true")) -}}
+        {{- partial "functions/parse_block_v3" (dict "page" $ "block" .) -}}
+      {{- end -}}
+    {{- end -}}
+  </main>
+</div>
+{{- else -}}
+  {{- range $sections -}}
+    {{- if or (not .demo) (and .demo (eq (os.Getenv "HUGO_BLOX_DEMO") "true")) -}}
+      {{- partial "functions/parse_block_v3" (dict "page" $ "block" .) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

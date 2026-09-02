@@ -1,0 +1,10 @@
+main:
+  - name: Bio
+    url: /
+    weight: 10
+  - name: Blogs
+    url: /projects/
+    weight: 11
+  - name: About me
+    url: /about/
+    weight: 12

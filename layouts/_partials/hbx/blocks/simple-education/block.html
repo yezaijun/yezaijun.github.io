@@ -1,0 +1,29 @@
+{{- $page := .wcPage -}}
+{{- $block := .wcBlock -}}
+{{- $username := $block.content.username | default "me" -}}
+{{- $profile := partial "functions/get_author_profile" $username -}}
+{{- $date_format := $block.design.date_format | default "2006年1月" -}}
+
+<div class="zh-home-section-content">
+  <h2 class="font-bold text-gray-900 dark:text-white">
+    {{ $block.content.title | default (i18n "education") | default "Education" }}
+  </h2>
+
+  <ul class="zh-home-list">
+    {{ range $profile.education }}
+      <li>
+        <div class="zh-education-row">
+          <div class="zh-education-institution">{{ .institution }}</div>
+          <h3>{{ .degree }}</h3>
+          <time class="zh-education-date">
+            {{- with .start }}{{ time.Format $date_format . }} – {{ end -}}
+            {{- with .end }}{{ time.Format $date_format . }}{{ else }}{{ i18n "present" | default "Present" }}{{ end -}}
+          </time>
+        </div>
+        {{ with .summary }}
+          <div class="zh-education-summary">{{ . | emojify | $page.RenderString }}</div>
+        {{ end }}
+      </li>
+    {{ end }}
+  </ul>
+</div>

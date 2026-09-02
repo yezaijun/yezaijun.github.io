@@ -1,0 +1,100 @@
+{{ $item := .item }}
+{{ $year_value := $item.Params.event_start | default $item.Date }}
+{{ $year := (time $year_value).Format "2006" }}
+{{ $pub := partial "functions/resolve_publication.html" $item }}
+{{ $top_award := "" }}
+{{ with $item.Params.awards }}{{ $top_award = index . 0 }}{{ end }}
+{{ $citation_style := site.Params.hugoblox.content.citations.style | default "apa" }}
+{{ $cite_resource := $item.Resources.GetMatch "cite.bib" }}
+{{ $doi := "" }}
+{{ $arxiv := "" }}
+{{ with $item.Params.hugoblox }}
+  {{ with .ids }}
+    {{ $doi = .doi | default "" }}
+    {{ $arxiv = .arxiv | default "" }}
+  {{ end }}
+{{ end }}
+
+<div class="pub-list-item view-citation" style="margin-bottom: 1rem">
+  <i class="far fa-file-alt pub-icon" aria-hidden="true"></i>
+
+  {{ if eq $citation_style "siam" }}
+    {{ $authors := $item.Params.authors }}
+    {{ if not (reflect.IsSlice $authors) }}{{ $authors = slice $authors }}{{ end }}
+    {{ $author_count := len $authors }}
+    <span class="article-metadata li-cite-author">
+      {{- range $index, $author := $authors -}}
+        {{- if gt $index 0 -}}
+          {{- if eq $index (sub $author_count 1) -}}
+            {{- if eq $author_count 2 }} and {{ else }}, and {{ end -}}
+          {{- else }}, {{ end -}}
+        {{- end -}}
+        {{- $formatted_author := partial "functions/format_siam_author.html" $author -}}
+        {{- if eq (printf "%v" $author) "me" -}}
+          <strong>{{ $formatted_author }}</strong>
+        {{- else -}}
+          {{- $formatted_author -}}
+        {{- end -}}
+      {{- end -}}
+    </span>,
+    <a href="{{ $item.RelPermalink }}"><em>{{ $item.Title }}</em></a>
+    {{- if $pub.name -}},
+      {{ $pub.short_name | default $pub.name }},
+      {{- with $pub.volume }} {{ . }}{{ end }}
+      ({{ $year }})
+      {{- with $pub.pages }}, pp. {{ . }}{{ end -}}
+      {{- with $item.Params.hugoblox.ids.doi }}, <a href="https://doi.org/{{ . }}">https://doi.org/{{ . }}</a>{{ end }}.
+    {{- else -}}
+      {{- with $item.Params.hugoblox.ids.arxiv }}, preprint, arXiv:{{ . }}, {{ $year }}{{ else }}, {{ $year }}{{ end }}.
+    {{- end }}
+    {{ with $top_award }}
+      <span class="ml-1">{{ partial "components/award_badge.html" (dict "award" . "page" $item "variant" "inline") }}</span>
+    {{ end }}
+
+  {{ else if eq $citation_style "apa" }}
+    <span class="article-metadata li-cite-author">
+      {{ partial "page_metadata_authors" $item }}
+    </span>
+    ({{- $year -}}).
+    <a href="{{ $item.RelPermalink }}" class="underline">{{ $item.Title }}</a>.
+    {{ with $pub.display_short }}{{- . | markdownify -}}.{{ end }}
+    {{ with $top_award }}
+      <span class="ml-1">{{ partial "components/award_badge.html" (dict "award" . "page" $item "variant" "inline") }}</span>
+    {{ end }}
+
+  {{ else }}
+    <span class="article-metadata li-cite-author">
+      {{ partial "page_metadata_authors" $item }}.
+    </span>
+    <a href="{{ $item.RelPermalink }}">{{ $item.Title }}</a>.
+    {{ with $pub.display_short }}{{- . | markdownify -}},{{ end }}
+    {{- $year -}}.
+    {{ with $top_award }}
+      <span class="ml-1">{{ partial "components/award_badge.html" (dict "award" . "page" $item "variant" "inline") }}</span>
+    {{ end }}
+  {{ end }}
+
+  {{ if or $cite_resource $doi $arxiv }}
+    <div class="flex flex-wrap space-x-3">
+      {{ with $doi }}
+        <a class="hb-attachment-link hb-attachment-link-small" href="https://doi.org/{{ . }}" target="_blank" rel="noopener">
+          {{ partial "functions/get_icon" (dict "name" "hero/link" "attributes" "style=\"height: 1em\" class='inline-block'") }}
+          DOI
+        </a>
+      {{ else }}
+        {{ with $arxiv }}
+          <a class="hb-attachment-link hb-attachment-link-small" href="https://arxiv.org/abs/{{ . }}" target="_blank" rel="noopener">
+            {{ partial "functions/get_icon" (dict "name" "hero/document-text" "attributes" "style=\"height: 1em\" class='inline-block'") }}
+            Preprint
+          </a>
+        {{ end }}
+      {{ end }}
+      {{ with $cite_resource }}
+        <button class="hb-attachment-link hb-attachment-link-small js-cite-clipboard cursor-pointer" type="button" data-filename="{{ .RelPermalink }}">
+          {{ partial "functions/get_icon" (dict "name" "hero/document-duplicate" "attributes" "style=\"height: 1em\" class='inline-block'") }}
+          <span>Cite</span>
+        </button>
+      {{ end }}
+    </div>
+  {{ end }}
+</div>

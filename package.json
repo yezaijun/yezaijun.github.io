@@ -1,0 +1,19 @@
+{
+  "name": "yezaijun-academic-site",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@11.16.0",
+  "description": "叶再俊的个人学术网站",
+  "scripts": {
+    "dev": "hugo server --disableFastRender",
+    "build": "hugo --minify --cleanDestinationDir && pnpm run pagefind",
+    "pagefind": "pagefind --site public"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.12",
+    "@tailwindcss/typography": "^0.5.10",
+    "pagefind": "^1.4.0",
+    "preact": "^10.27.2",
+    "tailwindcss": "^4.1.12"
+  }
+}

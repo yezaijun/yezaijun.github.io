@@ -1,0 +1,43 @@
+schema: hugoblox/author/v1
+slug: me
+is_owner: true
+name:
+  display: 叶再俊
+  given: Zaijun
+  family: Ye
+role: 计算数学
+
+affiliations:
+  - name: 上海师范大学
+    url: https://www.shnu.edu.cn/
+
+links:
+  - icon: at-symbol
+    url: mailto:yezaijun@outlook.com
+    label: 发送邮件
+  - icon: brands/github
+    url: https://github.com/yezaijun
+  - icon: academicons/google-scholar
+    url: https://scholar.google.com/citations?user=ckT5eZAAAAAJ
+  - icon: academicons/orcid
+    url: https://orcid.org/0009-0009-7971-2919
+
+interests:
+  - 科学计算
+  - 机器学习
+  - AI for CAE
+  - 神经算子
+
+education:
+  - degree: 计算数学
+    institution: 上海师范大学
+    start: 2024-09-01
+    end: 2027-06-30
+    summary: |
+      导师：王晚生教授。研究方向：偏微分方程数值解。
+  - degree: 数学与应用数学（辅修经济学）
+    institution: 上海师范大学
+    start: 2020-10-01
+    end: 2024-06-30
+    summary: |
+      GPA：3.74/4.00 · 专业排名 1/22 · 上海市优秀毕业生 · 上海市奖学金 · 校学生会主席团。

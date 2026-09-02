@@ -1,0 +1,39 @@
+name:
+  display: Zaijun Ye
+
+role: Computational Mathematics
+
+affiliations:
+  - name: Shanghai Normal University
+    url: https://www.shnu.edu.cn/
+
+links:
+  - icon: at-symbol
+    url: mailto:yezaijun@outlook.com
+    label: Send email
+  - icon: brands/github
+    url: https://github.com/yezaijun
+  - icon: academicons/google-scholar
+    url: https://scholar.google.com/citations?user=ckT5eZAAAAAJ
+  - icon: academicons/orcid
+    url: https://orcid.org/0009-0009-7971-2919
+
+interests:
+  - Scientific Computing
+  - Machine Learning
+  - AI for CAE
+  - Neural Operators
+
+education:
+  - degree: Computational Mathematics
+    institution: Shanghai Normal University
+    start: 2024-09-01
+    end: 2027-06-30
+    summary: |
+      Advisor: Prof. Wansheng Wang. Research focus: numerical methods for partial differential equations.
+  - degree: Mathematics
+    institution: Shanghai Normal University
+    start: 2020-10-01
+    end: 2024-06-30
+    summary: |
+      Minor in Economics · GPA: 3.74/4.00 · Ranked 1st of 22 · Outstanding Graduate of Shanghai · Shanghai Municipal Scholarship · Presidium Member, University Student Union.

@@ -1,0 +1,26 @@
+{{- $page := .wcPage -}}
+{{- $block := .wcBlock -}}
+{{- $source_site := site -}}
+{{- range hugo.Sites -}}
+  {{- if eq .Language.Lang "zh" -}}
+    {{- $source_site = . -}}
+  {{- end -}}
+{{- end -}}
+{{- $publications := where $source_site.RegularPages "Section" "publications" -}}
+{{- $publications = first 5 (sort $publications "Date" "desc") -}}
+
+<div class="flex flex-col items-center max-w-prose mx-auto gap-3 justify-center px-6 md:px-0">
+  <div class="mb-6 text-3xl font-bold text-gray-900 dark:text-white">
+    {{ $block.content.title | default "Publications" }}
+  </div>
+</div>
+
+<div class="flex flex-col items-center px-6">
+  <div class="mt-16 sm:mt-20 container max-w-3xl w-full">
+    <div class="flex flex-col space-y-3">
+      {{- range $publications -}}
+        {{- partial "views/citation.html" (dict "item" . "page" $page) -}}
+      {{- end -}}
+    </div>
+  </div>
+</div>
